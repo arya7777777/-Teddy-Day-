@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teddy Day Surprise 🧸💖</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Comic Sans MS', cursive;
+}
+
+body{
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:
+    linear-gradient(rgba(255,230,238,.85), rgba(251,200,212,.85)),
+    url("bg.png") center/cover no-repeat;
+}
+
+#container{
+  width:92vw;
+  max-width:420px;
+  text-align:center;
+}
+
+/* MAIN MESSAGE */
+#message{
+  background:#fff;
+  padding:6vw;
+  border-radius:22px;
+  font-size:4.8vw;
+  line-height:1.5;
+  box-shadow:0 12px 30px rgba(0,0,0,.18);
+  min-height:120px;
+}
+
+/* BUTTON */
+button{
+  margin-top:4vh;
+  padding:3.5vw 8vw;
+  font-size:5vw;
+  border:none;
+  border-radius:40px;
+  background:#ff9aa2;
+  color:white;
+  box-shadow:0 8px 20px rgba(0,0,0,.2);
+}
+
+/* TEDDY */
+#teddy{
+  width:65vw;
+  max-width:260px;
+  margin-top:4vh;
+  display:none;
+  animation:pop 0.8s ease forwards;
+}
+
+@keyframes pop{
+  from{opacity:0; transform:scale(0.6);}
+  to{opacity:1; transform:scale(1);}
+}
+
+/* FLOATING EMOJIS */
+.float{
+  position:absolute;
+  font-size:7vw;
+  animation:floatUp 3s linear;
+}
+
+@keyframes floatUp{
+  from{opacity:1; transform:translateY(0);}
+  to{opacity:0; transform:translateY(-45vh);}
+}
+
+/* 🌸 FINAL MINISO STYLE BOX 🌸 */
+#final{
+  display:none;
+  margin-top:4vh;
+  background:#fffaf7;
+  border:3px solid #ffb6c1;
+  border-radius:30px;
+  padding:6vw;
+  font-size:4.6vw;
+  line-height:1.6;
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.18),
+    inset 0 0 0 4px #ffe4ec;
+  
+  max-height:55vh;        /* ✅ allows long message */
+  overflow-y:auto;        /* ✅ scroll instead of cut */
+}
+
+/* cute scrollbar (mobile-friendly) */
+#final::-webkit-scrollbar{
+  width:6px;
+}
+#final::-webkit-scrollbar-thumb{
+  background:#ffb6c1;
+  border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="container">
+  <div id="message"></div>
+  <img id="teddy" src="teddy.png">
+  <button id="btn" onclick="nextStep()">Kon? 🤭</button>
+  <div id="final"></div>
+</div>
+
+<script>
+const msg = document.getElementById("message");
+const btn = document.getElementById("btn");
+const teddy = document.getElementById("teddy");
+const finalBox = document.getElementById("final");
+
+let step = 0;
+
+function typeText(text){
+  msg.innerHTML = "";
+  let i = 0;
+  const timer = setInterval(()=>{
+    msg.innerHTML += text[i] === "\n" ? "<br>" : text[i];
+    i++;
+    if(i >= text.length){
+      clearInterval(timer);
+    }
+  }, 45);
+}
+
+function floatEmojis(emoji, count){
+  for(let i=0;i<count;i++){
+    const f = document.createElement("div");
+    f.className = "float";
+    f.innerText = emoji;
+    f.style.left = Math.random()*100 + "vw";
+    f.style.top = "90vh";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),3000);
+  }
+}
+
+function nextStep(){
+  step++;
+
+  if(step === 1){
+    typeText("Guess …\n\n Karo");
+    btn.innerText = "Ptaa nhiii ";
+  }
+
+  else if(step === 2){
+    typeText("its a surprise 🤭🤭");
+    btn.innerText = "Surprise?";
+  }
+
+  else if(step === 3){
+    typeText(
+      "Surprise its meee 💖\n\nI came to meet you.\nI was waiting for you…\n\nTo hug me 🥺🫂🫂\nCome come jaldi jaldi 😭💞"
+    );
+    teddy.style.display = "block";
+    btn.innerText = "Hug me 🤗";
+  }
+
+  else if(step === 4){
+    floatEmojis("💖", 40);
+    floatEmojis("🫂", 30);
+    teddy.style.transform = "scale(1.15)";
+    btn.style.display = "none";
+    setTimeout(showFinalMessage, 1200);
+  }
+}
+
+function showFinalMessage(){
+  finalBox.style.display = "block";
+  finalBox.innerHTML = `
+    🧸🎀 <b>Happy Teddy Day bubyyy</b> 🎀🧸<br><br>
+
+    I really love you 🥺🥺🥺💕💕💕🌺🌺🌺🌺🌺🌺<br><br>
+
+    You’re my teddy bear 🧸<br>
+    my cutie cutie  😭💖<br>
+    my fluffy pandaaaa 🫠🫠🫠😋😋😋😋😋😋😋<br><br>
+
+    my num num nummmmmmmmmmmmmmmmmm 😭💞<br><br>
+
+    Agar world me koi sabse soft,<br>
+    sabse pyaara teddy hoga,<br>
+    to vo sirf meri nannu hogi 😤💖<br><br>
+
+    Bubby kabhi kabhi aapke gaal dekhke mann krta h…<br>
+    AAAAAAAAAAAAAAAAA 😭😭<br><br>
+
+    main ichkoo khaa jauuuu 😋😋😋😋😋<br><br>
+
+    Aap bohot zyada pyaare ho babyyy 🥺💞<br><br>
+
+    <b>
+    I Loveeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee<br>
+    Youuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu<br>
+    tooooooooooooooooooooooooooooooooooooooooooooooo<br>
+    muchhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh 💕💕💕💕💕
+    </b><br><br>
+
+    🎀 Happy Happy Teddy Dayyyy 🎀<br>
+    My sweetie teddy 😭🤍
+  `;
+}
+
+/* start */
+typeText("🤫 Shhh…\n\naapse koi milne aaya h aaj 💞");
+</script>
+
+</body>
+</html>
