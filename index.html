@@ -16,21 +16,55 @@
 body{
   height:100vh;
   overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:
-    linear-gradient(rgba(255,230,238,.85), rgba(251,200,212,.85)),
-    url("file_0000000065d07209b2755a46 2139591e.png") center/cover no-repeat;
+}
+
+/* BACKGROUND */
+#bg{
+  position:fixed;
+  inset:0;
+  background:url("bg.png") center/cover no-repeat;
+  z-index:-2;
+}
+#overlay{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(
+    rgba(255,230,238,.85),
+    rgba(251,200,212,.85)
+  );
+  z-index:-1;
+}
+
+#floats{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
 }
 
 #container{
-  width:92vw;
-  max-width:420px;
-  text-align:center;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:4vw;
 }
 
-/* MAIN MESSAGE */
+/* 🧸 TEDDY — FIXED POSITION */
+#teddy{
+  width:38vw;
+  max-width:160px;
+  margin-bottom:2vh;
+  display:none;
+  animation:pop .6s ease forwards;
+}
+
+@keyframes pop{
+  from{opacity:0; transform:scale(.7);}
+  to{opacity:1; transform:scale(1);}
+}
+
+/* MESSAGE BOX */
 #message{
   background:#fff;
   padding:6vw;
@@ -39,6 +73,9 @@ body{
   line-height:1.5;
   box-shadow:0 12px 30px rgba(0,0,0,.18);
   min-height:120px;
+  max-width:420px;
+  width:100%;
+  text-align:center;
 }
 
 /* BUTTON */
@@ -53,36 +90,21 @@ button{
   box-shadow:0 8px 20px rgba(0,0,0,.2);
 }
 
-/* TEDDY */
-#teddy{
-  width:65vw;
-  max-width:260px;
-  margin-top:4vh;
-  display:none;
-  animation:pop 0.8s ease forwards;
-}
-
-@keyframes pop{
-  from{opacity:0; transform:scale(0.6);}
-  to{opacity:1; transform:scale(1);}
-}
-
-/* FLOATING EMOJIS */
+/* FLOAT EMOJIS */
 .float{
   position:absolute;
-  font-size:7vw;
+  font-size:6vw;
   animation:floatUp 3s linear;
 }
 
 @keyframes floatUp{
   from{opacity:1; transform:translateY(0);}
-  to{opacity:0; transform:translateY(-45vh);}
+  to{opacity:0; transform:translateY(-40vh);}
 }
 
-/* 🌸 FINAL MINISO STYLE BOX 🌸 */
+/* FINAL MESSAGE BOX */
 #final{
   display:none;
-  margin-top:4vh;
   background:#fffaf7;
   border:3px solid #ffb6c1;
   border-radius:30px;
@@ -92,12 +114,13 @@ button{
   box-shadow:
     0 10px 25px rgba(0,0,0,.18),
     inset 0 0 0 4px #ffe4ec;
-  
-  max-height:55vh;        /* ✅ allows long message */
-  overflow-y:auto;        /* ✅ scroll instead of cut */
+
+  max-width:420px;
+  width:100%;
+  max-height:75vh;
+  overflow-y:auto;
 }
 
-/* cute scrollbar (mobile-friendly) */
 #final::-webkit-scrollbar{
   width:6px;
 }
@@ -110,10 +133,19 @@ button{
 
 <body>
 
+<div id="bg"></div>
+<div id="overlay"></div>
+<div id="floats"></div>
+
 <div id="container">
-  <div id="message"></div>
+
+  <!-- 🧸 TEDDY IS NOW ABOVE MESSAGE -->
   <img id="teddy" src="file_000000007cac7209b8504301567ab6cc (1).png">
+
+  <div id="message"></div>
+
   <button id="btn" onclick="nextStep()">Kon? 🤭</button>
+
   <div id="final"></div>
 </div>
 
@@ -122,29 +154,28 @@ const msg = document.getElementById("message");
 const btn = document.getElementById("btn");
 const teddy = document.getElementById("teddy");
 const finalBox = document.getElementById("final");
+const floats = document.getElementById("floats");
 
 let step = 0;
 
 function typeText(text){
-  msg.innerHTML = "";
-  let i = 0;
-  const timer = setInterval(()=>{
-    msg.innerHTML += text[i] === "\n" ? "<br>" : text[i];
+  msg.innerHTML="";
+  let i=0;
+  const t=setInterval(()=>{
+    msg.innerHTML += text[i]==="\n" ? "<br>" : text[i];
     i++;
-    if(i >= text.length){
-      clearInterval(timer);
-    }
-  }, 45);
+    if(i>=text.length) clearInterval(t);
+  },45);
 }
 
-function floatEmojis(emoji, count){
+function floatEmojis(emoji,count){
   for(let i=0;i<count;i++){
-    const f = document.createElement("div");
-    f.className = "float";
-    f.innerText = emoji;
-    f.style.left = Math.random()*100 + "vw";
-    f.style.top = "90vh";
-    document.body.appendChild(f);
+    const f=document.createElement("div");
+    f.className="float";
+    f.innerText=emoji;
+    f.style.left=Math.random()*100+"vw";
+    f.style.top="90vh";
+    floats.appendChild(f);
     setTimeout(()=>f.remove(),3000);
   }
 }
@@ -152,35 +183,33 @@ function floatEmojis(emoji, count){
 function nextStep(){
   step++;
 
-  if(step === 1){
+  if(step===1){
     typeText("Guess …\n\n Karo");
-    btn.innerText = "Ptaa nhiii ";
+    btn.innerText="Ptaa nhiii ";
   }
-
-  else if(step === 2){
+  else if(step===2){
     typeText("its a surprise 🤭🤭");
-    btn.innerText = "Surprise?";
+    btn.innerText="Surprise?";
   }
-
-  else if(step === 3){
+  else if(step===3){
     typeText(
       "Surprise its meee 💖\n\nI came to meet you.\nI was waiting for you…\n\nTo hug me 🥺🫂🫂\nCome come jaldi jaldi 😭💞"
     );
-    teddy.style.display = "block";
-    btn.innerText = "Hug me 🤗";
+    teddy.style.display="block";
+    btn.innerText="Hug me 🤗";
   }
-
-  else if(step === 4){
-    floatEmojis("💖", 40);
-    floatEmojis("🫂", 30);
-    teddy.style.transform = "scale(1.15)";
-    btn.style.display = "none";
-    setTimeout(showFinalMessage, 1200);
+  else if(step===4){
+    floatEmojis("💖",25);
+    floatEmojis("🫂",20);
+    btn.style.display="none";
+    msg.style.display="none";
+    teddy.style.display="none";
+    setTimeout(showFinalMessage,900);
   }
 }
 
 function showFinalMessage(){
-  finalBox.style.display = "block";
+  finalBox.style.display="block";
   finalBox.innerHTML = `
     🧸🎀 <b>Happy Teddy Day bubyyy</b> 🎀🧸<br><br>
 
@@ -215,7 +244,7 @@ function showFinalMessage(){
   `;
 }
 
-/* start */
+/* START */
 typeText("🤫 Shhh…\n\naapse koi milne aaya h aaj 💞");
 </script>
 
