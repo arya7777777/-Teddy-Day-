@@ -16,23 +16,15 @@
 body{
   height:100vh;
   overflow:hidden;
-}
 
-/* BACKGROUND */
-#bg{
-  position:fixed;
-  inset:0;
-  background:url("bg.png") center/cover no-repeat;
-  z-index:-2;
-}
-#overlay{
-  position:fixed;
-  inset:0;
-  background:linear-gradient(
-    rgba(255,230,238,.85),
-    rgba(251,200,212,.85)
-  );
-  z-index:-1;
+  /* ✅ SIMPLE + INSTANT BACKGROUND */
+  background:
+    linear-gradient(rgba(255,230,238,.85), rgba(251,200,212,.85)),
+    url("bg.png") center/cover no-repeat;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
 #floats{
@@ -42,15 +34,12 @@ body{
 }
 
 #container{
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  padding:4vw;
+  width:92vw;
+  max-width:420px;
+  text-align:center;
 }
 
-/* 🧸 TEDDY — FIXED POSITION */
+/* 🧸 TEDDY */
 #teddy{
   width:38vw;
   max-width:160px;
@@ -73,9 +62,6 @@ body{
   line-height:1.5;
   box-shadow:0 12px 30px rgba(0,0,0,.18);
   min-height:120px;
-  max-width:420px;
-  width:100%;
-  text-align:center;
 }
 
 /* BUTTON */
@@ -102,9 +88,10 @@ button{
   to{opacity:0; transform:translateY(-40vh);}
 }
 
-/* FINAL MESSAGE BOX */
+/* FINAL BOX */
 #final{
   display:none;
+  margin-top:4vh;
   background:#fffaf7;
   border:3px solid #ffb6c1;
   border-radius:30px;
@@ -115,31 +102,19 @@ button{
     0 10px 25px rgba(0,0,0,.18),
     inset 0 0 0 4px #ffe4ec;
 
-  max-width:420px;
-  width:100%;
-  max-height:75vh;
+  max-height:70vh;
   overflow-y:auto;
-}
-
-#final::-webkit-scrollbar{
-  width:6px;
-}
-#final::-webkit-scrollbar-thumb{
-  background:#ffb6c1;
-  border-radius:10px;
 }
 </style>
 </head>
 
 <body>
 
-<div id="bg"></div>
-<div id="overlay"></div>
 <div id="floats"></div>
 
 <div id="container">
 
-  <!-- 🧸 TEDDY IS NOW ABOVE MESSAGE -->
+  <!-- 🧸 ABOVE MESSAGE -->
   <img id="teddy" src="teddy.png">
 
   <div id="message"></div>
